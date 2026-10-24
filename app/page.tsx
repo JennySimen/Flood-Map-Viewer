@@ -17,27 +17,26 @@ export default function Home() {
     if (!containerRef.current) return;
 
     const map = new Map({
-      
+
       container: containerRef.current,
-        style: {
-          version: 8,
-          sources: {
-              'wms-test-source': {
-                  type: 'raster',
-                  // use the tiles option to specify a WMS tile source URL
-                  // https://maplibre.org/maplibre-style-spec/sources/
-                  tiles: [
-                      'https://ows.terrestris.de/osm/service?service=WMS&request=GetMap&version=1.1.1&layers=TOPO-WMS%2COSM-Overlay-WMS&styles=&format=image%2Fpng&transparent=true&info_format=text%2Fhtml&tiled=false&srs=EPSG:3857&bbox={bbox-epsg-3857}&width=256&height=256'
-                  ],
-                  tileSize: 256
-              }
-          },
-          layers: [{
-              id: 'wms-test-layer',
-              type: 'raster',
-              source: 'wms-test-source',
-              paint: {}
-          }]
+      style: {
+        version: 8,
+        sources: {
+          'wms-test-source': {
+            type: 'raster',
+            // use the tiles option to specify a WMS tile source URL
+            // https://maplibre.org/maplibre-style-spec/sources/
+            tiles: [
+              'https://geoserver.gfm.eodc.eu/geoserver/gfm/wms?service=WMS&version=1.3.0&request=GetMap&layers=observed_flood_extent_group_layer&styles=&crs=EPSG:3857&bbox={bbox-epsg-3857}&width=256&height=256&format=image/png&transparent=true&time=2026-08-04T00:00:00.000Z'],
+            tileSize: 256
+          }
+        },
+        layers: [{
+          id: 'wms-test-layer',
+          type: 'raster',
+          source: 'wms-test-source',
+          paint: {}
+        }]
       },
       zoom: 8,
       center: [-74.5447, 40.6892]
