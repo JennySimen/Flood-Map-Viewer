@@ -1,36 +1,36 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Flood Map Viewer
 
-## Getting Started
+A web map built with Next.js, TypeScript and MapLibre that shows flood data from the Copernicus Global Flood Monitoring (GFM) service.
 
-First, run the development server:
+**Status:** work in progress. The GFM layer loads on the map. I'm still looking for a date with flooding in the Southwest region of Cameroon, and the date selector and legend are not built yet.
 
+## What it does
+- Shows an interactive map (MapLibre GL JS).
+- Adds GFM's observed flood extent as a WMS layer on top of the basemap.
+
+## Data
+Flood data comes from the Copernicus Emergency Management Service's Global Flood Monitoring product, which maps flood extent from Sentinel-1 radar imagery. The map uses GFM's WMS-T service (WMS 1.3.0, EPSG:3857, PNG tiles).
+
+Credit: Copernicus Emergency Management Service / GFM. Check the current Copernicus terms for the exact attribution wording.
+
+## Stack
+Next.js, TypeScript, MapLibre GL JS.
+
+## Run it locally
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
+Then open http://localhost:3000.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Limitations
+- GFM data exists only where a Sentinel-1 satellite passed on that date, so many places and dates have no data.
+- Some areas, such as dense forest, can't be mapped reliably by radar.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## What I learned
+- (your notes here)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Next steps
+- Find a date with flooding in the Southwest region and use it as the default.
+- Add a date selector and a legend.
+- Deploy to Vercel.
