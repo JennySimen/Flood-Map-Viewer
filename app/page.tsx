@@ -27,7 +27,7 @@ export default function Home() {
             // use the tiles option to specify a WMS tile source URL
             // https://maplibre.org/maplibre-style-spec/sources/
             tiles: [
-              'https://geoserver.gfm.eodc.eu/geoserver/gfm/wms?service=WMS&version=1.3.0&request=GetMap&layers=observed_flood_extent_group_layer&styles=&crs=EPSG:3857&bbox={bbox-epsg-3857}&width=256&height=256&format=image/png&transparent=true&time=2026-08-04T00:00:00.000Z'],
+              'https://geoserver.gfm.eodc.eu/geoserver/gfm/wms?service=WMS&version=1.3.0&request=GetMap&layers=observed_flood_extent&styles=&crs=EPSG:3857&bbox={bbox-epsg-3857}&width=256&height=256&format=image/png&transparent=true&time=2026-08-16T00:00:00.000Z'],
             tileSize: 256
           }
         },
@@ -38,8 +38,8 @@ export default function Home() {
           paint: {}
         }]
       },
-      zoom: 8,
-      center: [-74.5447, 40.6892]
+      zoom: 7,
+      center: [14.7, 11.5]
     });
 
     return () => map.remove();
