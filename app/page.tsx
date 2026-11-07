@@ -4,10 +4,6 @@ import { useEffect, useRef } from 'react';
 import { Map, setWorkerUrl } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 
-
-
-// The bundler rewrites the library's import.meta.url, so it can't locate its own
-// worker. Serve the worker from /public and point it there explicitly.
 setWorkerUrl('/maplibre-gl-worker.mjs');
 
 export default function Home() {
@@ -22,24 +18,28 @@ export default function Home() {
       style: {
         version: 8,
         sources: {
-          'wms-test-source': {
+          'flooding': {
             type: 'raster',
-            // use the tiles option to specify a WMS tile source URL
-            // https://maplibre.org/maplibre-style-spec/sources/
             tiles: [
-              'https://geoserver.gfm.eodc.eu/geoserver/gfm/wms?service=WMS&version=1.3.0&request=GetMap&layers=observed_flood_extent&styles=&crs=EPSG:3857&bbox={bbox-epsg-3857}&width=256&height=256&format=image/png&transparent=true&time=2026-08-16T00:00:00.000Z'],
+              'https://geoserver.gfm.eodc.eu/geoserver/gfm/wms?service=WMS&version=1.3.0&request=GetMap&layers=observed_flood_extent&styles=&crs=EPSG:3857&bbox={bbox-epsg-3857}&width=256&height=256&format=image/png&transparent=true&time=2026-07-01T00:00:00.000Z/2026-08-31T23:59:59.000Z'],
             tileSize: 256
-          }
+          },
+          satellite: {
+            type: 'raster',
+            tiles: ['https://tiles.maps.eox.at/wms?service=WMS&version=1.3.0&request=GetMap&layers=s2cloudless-2025_3857&styles=&crs=EPSG:3857&bbox={bbox-epsg-3857}&width=256&height=256&format=image/jpeg'],
+            tileSize: 256,
+            attribution: '<a href="https://cloudless.eox.at" target="_blank">EOxCloudless</a> by <a href="https://eox.at/" target="_blank">EOX IT Services GmbH</a> (Contains modified Copernicus Sentinel data 2025)',          },
         },
-        layers: [{
-          id: 'wms-test-layer',
+        layers: [
+          { id: 'satellite-layer', type: 'raster', source: 'satellite' },{
+          id: 'flood-layer',
           type: 'raster',
-          source: 'wms-test-source',
+          source: 'flooding',
           paint: {}
         }]
       },
-      zoom: 7,
-      center: [14.7, 11.5]
+      zoom: 9,
+      center: [14.9, 10.9],
     });
 
     return () => map.remove();
