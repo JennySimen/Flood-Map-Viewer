@@ -9,11 +9,12 @@ setWorkerUrl('/maplibre-gl-worker.mjs');
 export default function Home() {
   const containerRef = useRef<HTMLDivElement>(null);
 
+  const mapRef = useRef<Map | null>(null);
+  
   useEffect(() => {
     if (!containerRef.current) return;
 
     const map = new Map({
-
       container: containerRef.current,
       style: {
         version: 8,
@@ -41,6 +42,9 @@ export default function Home() {
       zoom: 9,
       center: [14.9, 10.9],
     });
+
+    mapRef.current = map;
+
 
     return () => map.remove();
   }, []);
