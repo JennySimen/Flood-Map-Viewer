@@ -42,7 +42,6 @@ export default function Home() {
     ];
 
     const url = `${FLOOD_BASE}?${params.join('&')}`;
-    console.log(url)
     return url;
   }
 
