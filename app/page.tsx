@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { Map, setWorkerUrl } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
+import type { RasterTileSource } from 'maplibre-gl'
+import DataPanel from './DataPanel';
 
 setWorkerUrl('/maplibre-gl-worker.mjs');
 
@@ -14,16 +16,16 @@ export default function Home() {
   const [year, setYear] = useState(2026);
   const [month, setMonth] = useState(8);
 
-  const getStartDate = (year:number, month:number) => new Date(Date.UTC(year, month - 1, 1));
+  const getStartDate = (year: number, month: number) => new Date(Date.UTC(year, month - 1, 1));
 
-  const getEndDate = (year:number, month:number) => new Date(Date.UTC(year, month, 0, 23, 59, 59));
-  
+  const getEndDate = (year: number, month: number) => new Date(Date.UTC(year, month, 0, 23, 59, 59));
+
   const FLOOD_BASE = 'https://geoserver.gfm.eodc.eu/geoserver/gfm/wms';
 
-   function floodTileUrl(year: number, month: number): string {
+  function floodTileUrl(year: number, month: number): string {
     const start = getStartDate(year, month).toISOString();
     const end = getEndDate(year, month).toISOString();
-  
+
     const params = [
       'service=WMS',
       'version=1.3.0',
@@ -38,7 +40,7 @@ export default function Home() {
       'transparent=true',
       `time=${start}/${end}`,
     ];
-  
+
     const url = `${FLOOD_BASE}?${params.join('&')}`;
     console.log(url)
     return url;
@@ -78,10 +80,21 @@ export default function Home() {
     });
 
     mapRef.current = map;
-    console.log(mapRef.current?.getZoom())
-
     return () => map.remove();
   }, []);
 
-  return <div ref={containerRef} className="h-screen w-screen" />;
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map) return;
+
+    const source = map.getSource<RasterTileSource>('flooding');
+    source?.setTiles([floodTileUrl(year, month)]);
+  }, [year, month]);
+
+  return (
+    <div className="relative h-screen w-screen">
+      <div ref={containerRef} className="h-full w-full" />
+      <DataPanel  year={year} onYearChange={setYear} month={month} onMonthChange={setMonth}/>
+    </div>
+  );
 }
